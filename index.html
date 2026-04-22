@@ -7,132 +7,141 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0e0f11;
-    --surface: #16181c;
-    --surface2: #1e2026;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.12);
-    --text: #f0f0f0;
-    --text2: #888;
-    --text3: #555;
-    --blue: #4f8ef7;
-    --blue-dim: rgba(79,142,247,0.12);
-    --green: #3ecf8e;
-    --green-dim: rgba(62,207,142,0.1);
-    --amber: #f5a623;
-    --amber-dim: rgba(245,166,35,0.1);
-    --red: #f26060;
-    --red-dim: rgba(242,96,96,0.1);
-    --mono: 'DM Mono', monospace;
-    --sans: 'DM Sans', sans-serif;
+    --bg:#0e0f11;--surface:#16181c;--surface2:#1e2026;
+    --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.14);
+    --text:#f0f0f0;--text2:#888;--text3:#555;
+    --blue:#4f8ef7;--blue-dim:rgba(79,142,247,0.12);
+    --green:#3ecf8e;--green-dim:rgba(62,207,142,0.1);
+    --amber:#f5a623;--amber-dim:rgba(245,166,35,0.1);
+    --red:#f26060;--red-dim:rgba(242,96,96,0.1);
+    --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
   }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;}
+  .page{max-width:940px;margin:0 auto;padding:44px 24px 80px;}
 
-  .page { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
+  header{margin-bottom:40px;}
+  .header-row{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;}
+  .eyebrow{font-family:var(--mono);font-size:11px;color:var(--blue);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;}
+  h1{font-size:28px;font-weight:600;letter-spacing:-.03em;line-height:1.1;}
+  h1 span{color:var(--text2);font-weight:300;}
+  .subtitle{margin-top:8px;font-size:13px;color:var(--text2);line-height:1.6;}
 
-  header { margin-bottom: 48px; }
-  .eyebrow { font-family: var(--mono); font-size: 11px; color: var(--blue); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
-  h1 { font-size: 32px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; }
-  h1 span { color: var(--text2); font-weight: 300; }
-  .subtitle { margin-top: 10px; font-size: 14px; color: var(--text2); line-height: 1.6; }
+  .btn-pdf{
+    flex-shrink:0;display:inline-flex;align-items:center;gap:7px;
+    padding:9px 18px;border-radius:8px;
+    background:var(--blue-dim);border:1px solid var(--blue);
+    color:var(--blue);font-family:var(--mono);font-size:12px;
+    cursor:pointer;transition:background .15s,transform .1s;white-space:nowrap;
+  }
+  .btn-pdf:hover{background:rgba(79,142,247,.22);}
+  .btn-pdf:active{transform:scale(.97);}
+  .btn-pdf svg{width:14px;height:14px;flex-shrink:0;}
 
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
 
-  section { margin-bottom: 28px; }
-  .section-title {
-    font-family: var(--mono); font-size: 10px; color: var(--text3);
-    text-transform: uppercase; letter-spacing: 0.1em;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 8px; margin-bottom: 16px;
+  section{margin-bottom:26px;}
+  .section-title{
+    font-family:var(--mono);font-size:10px;color:var(--text3);
+    text-transform:uppercase;letter-spacing:.1em;
+    border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:14px;
+  }
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;}
+  .metric{background:var(--surface2);border-radius:8px;padding:12px 14px;}
+  .metric-label{font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:5px;}
+  .metric-val{font-size:20px;font-weight:600;letter-spacing:-.02em;}
+  .metric-sub{font-size:11px;color:var(--text2);margin-top:3px;}
+
+  /* Funnel inputs */
+  .fi-header{display:grid;grid-template-columns:92px 1fr 118px 100px 92px;gap:10px;margin-bottom:6px;}
+  .fi-header span{font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;}
+  .funnel-input-row{display:grid;grid-template-columns:92px 1fr 118px 100px 92px;align-items:center;gap:10px;margin-bottom:9px;}
+  .fi-label{font-family:var(--mono);font-size:12px;color:var(--text2);}
+  .fi-abs,.fi-pct{
+    background:var(--surface2);border:1px solid var(--border2);
+    color:var(--text);font-family:var(--mono);font-size:13px;
+    border-radius:6px;padding:6px 9px;width:100%;outline:none;transition:border-color .15s;
+  }
+  .fi-abs:focus,.fi-pct:focus{border-color:var(--blue);}
+  .fi-sep{font-family:var(--mono);font-size:11px;color:var(--text3);}
+
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;width:100%;height:2px;
+    background:var(--border2);border-radius:2px;outline:none;cursor:pointer;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;
+    background:var(--blue);border:2px solid var(--bg);box-shadow:0 0 0 1px var(--blue);transition:transform .1s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.25);}
+  input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--blue);border:2px solid var(--bg);cursor:pointer;}
+
+  .ticket-row{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
+  .ticket-label{font-size:13px;color:var(--text2);flex-shrink:0;width:92px;}
+  .fi-abs.ticket-w{width:118px;flex-shrink:0;}
+  .ticket-display{font-family:var(--mono);font-size:13px;color:var(--text2);width:80px;text-align:right;flex-shrink:0;}
+
+  /* Conv weight note */
+  .conv-note{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:6px;padding:8px 10px;background:var(--surface2);border-radius:6px;line-height:1.5;}
+  .conv-note strong{color:var(--text2);}
+
+  /* Funnel visual */
+  .funnel-stage{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+  .funnel-label{font-size:12px;color:var(--text2);font-family:var(--mono);width:72px;flex-shrink:0;}
+  .funnel-track{flex:1;height:22px;background:var(--surface2);border-radius:4px;overflow:hidden;}
+  .funnel-fill{
+    height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;
+    font-size:11px;font-family:var(--mono);font-weight:500;
+    transition:width .4s cubic-bezier(.4,0,.2,1);white-space:nowrap;
+  }
+  .funnel-pct{font-size:11px;color:var(--text3);font-family:var(--mono);width:44px;text-align:right;flex-shrink:0;}
+
+  /* Results */
+  .result-box{border:1px solid var(--border2);border-radius:12px;padding:20px 22px;position:relative;overflow:hidden;}
+  .result-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue),transparent);}
+  .result-label{font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:5px;text-transform:uppercase;letter-spacing:.08em;}
+  .result-num{font-size:34px;font-weight:600;letter-spacing:-.04em;}
+  .result-sub{font-size:12px;color:var(--text2);margin-top:4px;}
+
+  /* Scenarios */
+  .scenario{border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;transition:border-color .2s;}
+  .scenario.active{border-color:var(--blue);background:var(--blue-dim);}
+  .scenario-label{font-size:11px;font-family:var(--mono);margin-bottom:2px;}
+  .scenario-conv-row{display:flex;align-items:center;justify-content:center;gap:4px;margin-bottom:10px;}
+  .sc-conv-input{
+    background:transparent;border:none;border-bottom:1px dashed var(--text3);
+    color:var(--text2);font-family:var(--mono);font-size:11px;
+    width:40px;text-align:center;outline:none;padding:1px 2px;
+    transition:border-color .15s;
+  }
+  .sc-conv-input:focus{border-bottom-color:var(--blue);color:var(--text);}
+  .sc-conv-label{font-family:var(--mono);font-size:10px;color:var(--text3);}
+  .scenario-vendas{font-size:19px;font-weight:600;letter-spacing:-.02em;}
+  .scenario-receita{font-size:11px;color:var(--text2);margin-top:4px;}
+
+  .divider{height:1px;background:var(--border);margin:8px 0 14px;}
+  footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+  .footer-note{font-size:11px;color:var(--text3);}
+  .footer-updated{font-family:var(--mono);font-size:11px;color:var(--text3);}
+
+  /* PDF print styles */
+  @media print{
+    body{background:#fff;color:#111;}
+    .btn-pdf,.no-print{display:none!important;}
+    .page{padding:20px;max-width:100%;}
+    .card,.metric,.result-box,.scenario{border:1px solid #ccc!important;background:#f9f9f9!important;}
+    .funnel-track{background:#eee!important;}
+    input{border-color:#ccc!important;}
+    :root{--text:#111;--text2:#444;--text3:#777;--surface:#f9f9f9;--surface2:#f0f0f0;}
   }
 
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 22px;
-  }
-
-  .metric { background: var(--surface2); border-radius: 8px; padding: 14px 16px; }
-  .metric-label { font-size: 11px; color: var(--text3); font-family: var(--mono); margin-bottom: 6px; }
-  .metric-val { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
-  .metric-sub { font-size: 11px; color: var(--text2); margin-top: 3px; }
-
-  .slider-group { margin-bottom: 18px; }
-  .slider-group:last-child { margin-bottom: 0; }
-  .slider-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px; }
-  .slider-name { font-size: 13px; color: var(--text2); }
-  .slider-value { font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--text); }
-
-  input[type=range] {
-    -webkit-appearance: none; appearance: none;
-    width: 100%; height: 2px;
-    background: var(--border2); border-radius: 2px; outline: none; cursor: pointer;
-  }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none; appearance: none;
-    width: 16px; height: 16px; border-radius: 50%;
-    background: var(--blue); border: 2px solid var(--bg);
-    box-shadow: 0 0 0 1px var(--blue);
-    transition: transform 0.1s;
-  }
-  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
-  input[type=range]::-moz-range-thumb {
-    width: 16px; height: 16px; border-radius: 50%;
-    background: var(--blue); border: 2px solid var(--bg); cursor: pointer;
-  }
-
-  .funnel-stage { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-  .funnel-label { font-size: 12px; color: var(--text2); font-family: var(--mono); width: 72px; flex-shrink: 0; }
-  .funnel-track { flex: 1; height: 22px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
-  .funnel-fill {
-    height: 100%; border-radius: 4px;
-    display: flex; align-items: center; padding-left: 8px;
-    font-size: 11px; font-family: var(--mono); font-weight: 500;
-    transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
-    white-space: nowrap;
-  }
-  .funnel-pct { font-size: 11px; color: var(--text3); font-family: var(--mono); width: 40px; text-align: right; flex-shrink: 0; }
-
-  .result-box {
-    border: 1px solid var(--border2);
-    border-radius: 12px; padding: 22px 24px;
-    position: relative; overflow: hidden;
-  }
-  .result-box::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--blue), transparent);
-  }
-  .result-label { font-family: var(--mono); font-size: 11px; color: var(--text3); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.08em; }
-  .result-num { font-size: 36px; font-weight: 600; letter-spacing: -0.04em; }
-  .result-sub { font-size: 13px; color: var(--text2); margin-top: 4px; }
-
-  .scenario { border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; transition: border-color 0.2s; }
-  .scenario.active { border-color: var(--blue); background: var(--blue-dim); }
-  .scenario-label { font-size: 11px; color: var(--text3); font-family: var(--mono); margin-bottom: 4px; }
-  .scenario-conv { font-size: 10px; color: var(--text3); margin-bottom: 10px; }
-  .scenario-vendas { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
-  .scenario-receita { font-size: 11px; color: var(--text2); margin-top: 4px; }
-
-  .badge { display: inline-block; font-family: var(--mono); font-size: 10px; padding: 2px 7px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
-  .badge-blue { background: var(--blue-dim); color: var(--blue); }
-  .badge-green { background: var(--green-dim); color: var(--green); }
-  .badge-amber { background: var(--amber-dim); color: var(--amber); }
-
-  .divider { height: 1px; background: var(--border); margin: 8px 0 16px; }
-
-  footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-  .footer-note { font-size: 12px; color: var(--text3); }
-  .footer-updated { font-family: var(--mono); font-size: 11px; color: var(--text3); }
-
-  @media (max-width: 600px) {
-    .grid2, .grid3, .grid4 { grid-template-columns: 1fr 1fr; }
-    .grid4 { grid-template-columns: 1fr 1fr; }
-    h1 { font-size: 24px; }
-    .result-num { font-size: 28px; }
+  @media(max-width:640px){
+    .grid2,.grid3,.grid4{grid-template-columns:1fr 1fr;}
+    h1{font-size:20px;}
+    .result-num{font-size:24px;}
+    .fi-header,.funnel-input-row{grid-template-columns:70px 1fr 90px 78px 72px;gap:6px;}
   }
 </style>
 </head>
@@ -140,85 +149,82 @@
 <div class="page">
 
   <header>
-    <p class="eyebrow">Planejamento comercial</p>
-    <h1>Simulador de Vendas <span>/ Minicurso</span></h1>
-    <p class="subtitle">Ajuste os parâmetros da próxima edição e veja a previsão de vendas e receita em tempo real.<br>Baseado nas taxas históricas do seu funil.</p>
+    <div class="header-row">
+      <div>
+        <p class="eyebrow">Planejamento comercial</p>
+        <h1>Simulador de Vendas <span>/ Minicurso</span></h1>
+        <p class="subtitle">Edite qualquer campo — absoluto ou % dos leads totais — e tudo se recalcula automaticamente.<br>Pressione Enter ou clique fora para confirmar edições.</p>
+      </div>
+      <button class="btn-pdf no-print" onclick="window.print()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M4 4V1h8v3M2 4h12a1 1 0 011 1v6a1 1 0 01-1 1h-2v3H4v-3H2a1 1 0 01-1-1V5a1 1 0 011-1z"/>
+          <circle cx="12" cy="7" r=".5" fill="currentColor"/>
+        </svg>
+        Baixar PDF
+      </button>
+    </div>
   </header>
 
   <section>
     <p class="section-title">Taxas históricas — base de cálculo</p>
     <div class="grid4">
-      <div class="metric">
-        <p class="metric-label">Aula 1 → 2</p>
-        <p class="metric-val" style="color:var(--blue)">55%</p>
-        <p class="metric-sub">retenção</p>
-      </div>
-      <div class="metric">
-        <p class="metric-label">Aula 2 → 3</p>
-        <p class="metric-val" style="color:var(--blue)">81,8%</p>
-        <p class="metric-sub">retenção</p>
-      </div>
-      <div class="metric">
-        <p class="metric-label">Aula 3 → 4</p>
-        <p class="metric-val" style="color:var(--blue)">77,8%</p>
-        <p class="metric-sub">retenção</p>
-      </div>
-      <div class="metric">
-        <p class="metric-label">Conv. aula 4</p>
-        <p class="metric-val" style="color:var(--green)">27,1%</p>
-        <p class="metric-sub">vendas / presentes</p>
-      </div>
+      <div class="metric"><p class="metric-label">Aula 1 → 2</p><p class="metric-val" style="color:var(--blue)">55%</p><p class="metric-sub">retenção</p></div>
+      <div class="metric"><p class="metric-label">Aula 2 → 3</p><p class="metric-val" style="color:var(--blue)">81,8%</p><p class="metric-sub">retenção</p></div>
+      <div class="metric"><p class="metric-label">Aula 3 → 4</p><p class="metric-val" style="color:var(--blue)">77,8%</p><p class="metric-sub">retenção</p></div>
+      <div class="metric"><p class="metric-label">Conv. histórica</p><p class="metric-val" style="color:var(--green)">27,1%</p><p class="metric-sub">vendas / aula 4</p></div>
     </div>
   </section>
 
   <section>
     <p class="section-title">Parâmetros da próxima edição</p>
-    <div class="card grid2" style="gap: 32px;">
-      <div>
-        <div class="slider-group">
-          <div class="slider-header">
-            <span class="slider-name">Leads captados</span>
-            <span class="slider-value" id="o-leads">110.000</span>
-          </div>
-          <input type="range" id="s-leads" min="20000" max="300000" step="5000" value="110000">
-        </div>
-        <div class="slider-group">
-          <div class="slider-header">
-            <span class="slider-name">Retenção aula 1 → 2</span>
-            <span class="slider-value" id="o-r12">55%</span>
-          </div>
-          <input type="range" id="s-r12" min="20" max="90" step="1" value="55">
-        </div>
-        <div class="slider-group">
-          <div class="slider-header">
-            <span class="slider-name">Retenção aula 2 → 3</span>
-            <span class="slider-value" id="o-r23">82%</span>
-          </div>
-          <input type="range" id="s-r23" min="30" max="95" step="1" value="82">
-        </div>
+    <div class="card">
+      <div class="fi-header">
+        <span></span><span>slider</span><span>nº absoluto</span><span>% dos leads</span><span></span>
       </div>
-      <div>
-        <div class="slider-group">
-          <div class="slider-header">
-            <span class="slider-name">Retenção aula 3 → 4</span>
-            <span class="slider-value" id="o-r34">78%</span>
-          </div>
-          <input type="range" id="s-r34" min="30" max="95" step="1" value="78">
-        </div>
-        <div class="slider-group">
-          <div class="slider-header">
-            <span class="slider-name">Conversão aula 4</span>
-            <span class="slider-value" id="o-conv">27%</span>
-          </div>
-          <input type="range" id="s-conv" min="5" max="60" step="1" value="27">
-        </div>
-        <div class="slider-group">
-          <div class="slider-header">
-            <span class="slider-name">Ticket médio</span>
-            <span class="slider-value" id="o-ticket">R$ 997</span>
-          </div>
-          <input type="range" id="s-ticket" min="97" max="2997" step="50" value="997">
-        </div>
+
+      <div class="funnel-input-row">
+        <span class="fi-label">Leads</span>
+        <input type="range" id="sl-leads" min="20000" max="300000" step="1000" value="110000">
+        <input type="text" class="fi-abs" id="abs-leads" value="110.000">
+        <input type="text" class="fi-pct" id="pct-leads" value="100%" readonly style="color:var(--text3);cursor:default;">
+        <span class="fi-sep">total</span>
+      </div>
+      <div class="funnel-input-row">
+        <span class="fi-label">Aula 1</span>
+        <input type="range" id="sl-a1" min="1" max="30" step="1" value="9">
+        <input type="text" class="fi-abs" id="abs-a1" value="10.000">
+        <input type="text" class="fi-pct" id="pct-a1" value="9,1%">
+        <span class="fi-sep">de leads</span>
+      </div>
+      <div class="funnel-input-row">
+        <span class="fi-label">Aula 2</span>
+        <input type="range" id="sl-a2" min="1" max="20" step="1" value="5">
+        <input type="text" class="fi-abs" id="abs-a2" value="5.500">
+        <input type="text" class="fi-pct" id="pct-a2" value="5,0%">
+        <span class="fi-sep">de leads</span>
+      </div>
+      <div class="funnel-input-row">
+        <span class="fi-label">Aula 3</span>
+        <input type="range" id="sl-a3" min="1" max="20" step="1" value="4">
+        <input type="text" class="fi-abs" id="abs-a3" value="4.500">
+        <input type="text" class="fi-pct" id="pct-a3" value="4,1%">
+        <span class="fi-sep">de leads</span>
+      </div>
+      <div class="funnel-input-row">
+        <span class="fi-label">Aula 4</span>
+        <input type="range" id="sl-a4" min="1" max="20" step="1" value="3">
+        <input type="text" class="fi-abs" id="abs-a4" value="3.500">
+        <input type="text" class="fi-pct" id="pct-a4" value="3,2%">
+        <span class="fi-sep">de leads</span>
+      </div>
+
+      <div class="conv-note" id="conv-note"></div>
+
+      <div class="ticket-row">
+        <span class="ticket-label">Ticket médio</span>
+        <input type="text" class="fi-abs ticket-w" id="abs-ticket" value="997">
+        <input type="range" style="flex:1;" id="sl-ticket" min="97" max="2997" step="50" value="997">
+        <span class="ticket-display" id="o-ticket">R$ 997</span>
       </div>
     </div>
   </section>
@@ -230,7 +236,7 @@
 
   <section>
     <p class="section-title">Resultado projetado</p>
-    <div class="grid2" style="margin-bottom: 12px;">
+    <div class="grid2" style="margin-bottom:12px;">
       <div class="result-box">
         <p class="result-label">Vendas estimadas</p>
         <p class="result-num" id="r-vendas" style="color:var(--blue)">—</p>
@@ -244,23 +250,35 @@
     </div>
 
     <div class="divider"></div>
-    <p class="section-title" style="margin-bottom:12px;">Cenários comparativos — com os leads acima</p>
+    <p class="section-title" style="margin-bottom:12px;">Cenários comparativos <span style="color:var(--text3);font-size:9px;letter-spacing:.04em;">— edite os % abaixo para personalizar</span></p>
     <div class="grid3">
       <div class="scenario" id="sc-pess-card">
         <p class="scenario-label" style="color:var(--red)">Pessimista</p>
-        <p class="scenario-conv" id="sc-pess-conv">conv. 20%</p>
+        <div class="scenario-conv-row">
+          <span class="sc-conv-label">conv.</span>
+          <input class="sc-conv-input" id="sc-pess-pct" value="0.5" title="Edite a taxa de conversão pessimista">
+          <span class="sc-conv-label">%</span>
+        </div>
         <p class="scenario-vendas" id="sc-pess" style="color:var(--red)">—</p>
         <p class="scenario-receita" id="sc-pess-r">—</p>
       </div>
       <div class="scenario active" id="sc-base-card">
         <p class="scenario-label" style="color:var(--blue)">Base histórica</p>
-        <p class="scenario-conv" id="sc-base-conv">conv. 27,1%</p>
+        <div class="scenario-conv-row">
+          <span class="sc-conv-label">conv.</span>
+          <input class="sc-conv-input" id="sc-base-pct" value="0.9" title="Edite a taxa de conversão base">
+          <span class="sc-conv-label">%</span>
+        </div>
         <p class="scenario-vendas" id="sc-base" style="color:var(--blue)">—</p>
         <p class="scenario-receita" id="sc-base-r">—</p>
       </div>
       <div class="scenario" id="sc-opt-card">
         <p class="scenario-label" style="color:var(--green)">Otimista</p>
-        <p class="scenario-conv" id="sc-opt-conv">conv. 35%</p>
+        <div class="scenario-conv-row">
+          <span class="sc-conv-label">conv.</span>
+          <input class="sc-conv-input" id="sc-opt-pct" value="1.2" title="Edite a taxa de conversão otimista">
+          <span class="sc-conv-label">%</span>
+        </div>
         <p class="scenario-vendas" id="sc-opt" style="color:var(--green)">—</p>
         <p class="scenario-receita" id="sc-opt-r">—</p>
       </div>
@@ -274,90 +292,177 @@
 </div>
 
 <script>
-  document.getElementById('footer-date').textContent = 'atualizado ' + new Date().toLocaleDateString('pt-BR');
+document.getElementById('footer-date').textContent = 'atualizado ' + new Date().toLocaleDateString('pt-BR');
 
-  const HIST_LEADS = 110000;
-  const HIST_CPL1  = 10000;
+// ── State ────────────────────────────────────────────────────────────────────
+let leads = 110000, a1 = 10000, a2 = 5500, a3 = 4500, a4 = 3500, ticket = 997;
+let updating = false;
 
-  function fmt(n)  { return Math.round(n).toLocaleString('pt-BR'); }
-  function fmtR(n) {
-    if (n >= 1000000) return 'R$ ' + (n/1000000).toFixed(1).replace('.',',') + 'M';
-    return 'R$ ' + Math.round(n).toLocaleString('pt-BR');
-  }
+// Weights: how much each aula presence contributes to conversion probability
+// Based on historical data analysis: aula_final most predictive (34.2%), then a1 (31.2%), a3 (30.1%), a2 (25.8%)
+const W = { a1: 0.312, a2: 0.258, a3: 0.301, a4: 0.342 };
+const W_SUM = W.a1 + W.a2 + W.a3 + W.a4; // normalisation base
 
-  function calc() {
-    const leads  = +document.getElementById('s-leads').value;
-    const r12    = +document.getElementById('s-r12').value / 100;
-    const r23    = +document.getElementById('s-r23').value / 100;
-    const r34    = +document.getElementById('s-r34').value / 100;
-    const conv   = +document.getElementById('s-conv').value / 100;
-    const ticket = +document.getElementById('s-ticket').value;
+// Historical baseline conversion @ 27.1% with historical audiences
+const HIST = { leads: 110000, a1: 10000, a2: 5500, a3: 4500, a4: 3500, conv_rate: 0.271 };
 
-    document.getElementById('o-leads').textContent  = fmt(leads);
-    document.getElementById('o-r12').textContent    = Math.round(r12*100) + '%';
-    document.getElementById('o-r23').textContent    = Math.round(r23*100) + '%';
-    document.getElementById('o-r34').textContent    = Math.round(r34*100) + '%';
-    document.getElementById('o-conv').textContent   = Math.round(conv*100) + '%';
-    document.getElementById('o-ticket').textContent = 'R$ ' + fmt(ticket);
+function weightedConvRate() {
+  // Each aula contributes proportionally to leads, weighted by its predictive power
+  const score =
+    (a1 / leads) * W.a1 +
+    (a2 / leads) * W.a2 +
+    (a3 / leads) * W.a3 +
+    (a4 / leads) * W.a4;
+  const hist_score =
+    (HIST.a1 / HIST.leads) * W.a1 +
+    (HIST.a2 / HIST.leads) * W.a2 +
+    (HIST.a3 / HIST.leads) * W.a3 +
+    (HIST.a4 / HIST.leads) * W.a4;
+  // Scale: ratio of current engagement score vs historical, applied to hist conv rate
+  return HIST.conv_rate * (score / hist_score);
+}
 
-    const cpl1   = leads * (HIST_CPL1 / HIST_LEADS);
-    const cpl2   = cpl1 * r12;
-    const cpl3   = cpl2 * r23;
-    const cpl4   = cpl3 * r34;
-    const vendas = cpl4 * conv;
-    const receita= vendas * ticket;
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function fmt(n)    { return Math.round(n).toLocaleString('pt-BR'); }
+function fmtPct(v) { return (v * 100).toFixed(1).replace('.', ',') + '%'; }
+function fmtR(n)   {
+  if (n >= 1000000) return 'R$ ' + (n / 1000000).toFixed(1).replace('.', ',') + 'M';
+  return 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+}
+function parseNum(s) { return parseFloat(s.replace(/\./g, '').replace(',', '.')) || 0; }
+function parsePct(s) { return parseFloat(s.replace('%', '').replace(',', '.').trim()) || 0; }
+function clamp(v, mn, mx) { return Math.max(mn, Math.min(mx, isNaN(v) ? mn : v)); }
+function scPct(id)  { return parsePct(document.getElementById(id).value) / 100; }
 
-    const stages = [
-      { label: 'Leads',   val: leads, color: '#4f8ef7', text: '#0e1a2f' },
-      { label: 'Aula 1',  val: cpl1,  color: '#3ecf8e', text: '#042318' },
-      { label: 'Aula 2',  val: cpl2,  color: '#3ecf8e', text: '#042318' },
-      { label: 'Aula 3',  val: cpl3,  color: '#3ecf8e', text: '#042318' },
-      { label: 'Aula 4',  val: cpl4,  color: '#f5a623', text: '#2a1900' },
-      { label: 'Vendas',  val: vendas, color: '#4f8ef7', text: '#0e1a2f' },
+// ── Render ───────────────────────────────────────────────────────────────────
+function updateUI() {
+  if (updating) return;
+  updating = true;
+
+  const convRate = weightedConvRate();
+  const vendas   = a4 * convRate;
+  const receita  = vendas * ticket;
+
+  // Sliders — all relative to leads for consistency
+  document.getElementById('sl-leads').value = clamp(leads, 20000, 300000);
+  document.getElementById('sl-a1').value    = clamp(Math.round(a1 / leads * 100), 1, 100);
+  document.getElementById('sl-a2').value    = clamp(Math.round(a2 / leads * 100), 1, 100);
+  document.getElementById('sl-a3').value    = clamp(Math.round(a3 / leads * 100), 1, 100);
+  document.getElementById('sl-a4').value    = clamp(Math.round(a4 / leads * 100), 1, 100);
+  document.getElementById('sl-ticket').value = clamp(ticket, 97, 2997);
+
+  // Abs fields
+  document.getElementById('abs-leads').value  = fmt(leads);
+  document.getElementById('abs-a1').value     = fmt(a1);
+  document.getElementById('abs-a2').value     = fmt(a2);
+  document.getElementById('abs-a3').value     = fmt(a3);
+  document.getElementById('abs-a4').value     = fmt(a4);
+  document.getElementById('abs-ticket').value = fmt(ticket);
+  document.getElementById('o-ticket').textContent = 'R$ ' + fmt(ticket);
+
+  // Pct fields — all % of leads
+  document.getElementById('pct-a1').value = fmtPct(a1 / leads);
+  document.getElementById('pct-a2').value = fmtPct(a2 / leads);
+  document.getElementById('pct-a3').value = fmtPct(a3 / leads);
+  document.getElementById('pct-a4').value = fmtPct(a4 / leads);
+
+  // Conv note
+  document.getElementById('conv-note').innerHTML =
+    `<strong>Conversão estimada:</strong> ${fmtPct(vendas / leads)} &nbsp;|&nbsp; ` +
+    `Pesos por aula: A1 ${(W.a1*100).toFixed(0)}% · A2 ${(W.a2*100).toFixed(0)}% · A3 ${(W.a3*100).toFixed(0)}% · A4 ${(W.a4*100).toFixed(0)}% &nbsp;·&nbsp; ` +
+    `Engajamento atual vs histórico: ${((a1/leads)/(HIST.a1/HIST.leads)*100).toFixed(0)}% / ${((a2/leads)/(HIST.a2/HIST.leads)*100).toFixed(0)}% / ${((a3/leads)/(HIST.a3/HIST.leads)*100).toFixed(0)}% / ${((a4/leads)/(HIST.a4/HIST.leads)*100).toFixed(0)}%`;
+
+  // Funnel visual
+  const stages = [
+    { label:'Leads',  val:leads, color:'#4f8ef7', text:'#0a1629' },
+    { label:'Aula 1', val:a1,    color:'#3ecf8e', text:'#021e12' },
+    { label:'Aula 2', val:a2,    color:'#3ecf8e', text:'#021e12' },
+    { label:'Aula 3', val:a3,    color:'#3ecf8e', text:'#021e12' },
+    { label:'Aula 4', val:a4,    color:'#f5a623', text:'#251600' },
+    { label:'Vendas', val:vendas,color:'#4f8ef7', text:'#0a1629' },
+  ];
+  document.getElementById('funnel-container').innerHTML = stages.map(s => {
+    const pct = Math.max(1.5, (s.val / leads) * 100);
+    return `<div class="funnel-stage">
+      <span class="funnel-label">${s.label}</span>
+      <div class="funnel-track">
+        <div class="funnel-fill" style="width:${pct.toFixed(1)}%;background:${s.color};color:${s.text};">${fmt(s.val)}</div>
+      </div>
+      <span class="funnel-pct">${(s.val / leads * 100).toFixed(1)}%</span>
+    </div>`;
+  }).join('');
+
+  // Results
+  document.getElementById('r-vendas').textContent     = fmt(vendas);
+  document.getElementById('r-vendas-sub').textContent = `conv. ${fmtPct(vendas / leads)} dos leads totais · ${fmt(a4)} presentes na aula 4`;
+  document.getElementById('r-receita').textContent    = fmtR(receita);
+  document.getElementById('r-cpl4-sub').textContent   = `${fmt(vendas)} vendas × R$ ${fmt(ticket)} ticket`;
+
+  // Scenarios — use leads as base, % of total leads
+  const sc = [
+    { pctId:'sc-pess-pct', valId:'sc-pess', revId:'sc-pess-r', cardId:'sc-pess-card' },
+    { pctId:'sc-base-pct', valId:'sc-base', revId:'sc-base-r', cardId:'sc-base-card' },
+    { pctId:'sc-opt-pct',  valId:'sc-opt',  revId:'sc-opt-r',  cardId:'sc-opt-card'  },
+  ];
+  const convPctLeads = vendas / leads * 100;
+  let activeIdx = 1;
+  sc.forEach((s, i) => {
+    const r   = scPct(s.pctId);
+    const v   = Math.round(leads * r);
+    const rev = fmtR(v * ticket);
+    document.getElementById(s.valId).textContent = fmt(v) + ' vendas';
+    document.getElementById(s.revId).textContent = rev;
+    document.getElementById(s.cardId).classList.remove('active');
+    // Highlight scenario closest to current conv rate
+    const dist = [
+      Math.abs(convPctLeads - scPct("sc-pess-pct") * 100),
+      Math.abs(convPctLeads - scPct("sc-base-pct") * 100),
+      Math.abs(convPctLeads - scPct("sc-opt-pct")  * 100),
     ];
-
-    const container = document.getElementById('funnel-container');
-    container.innerHTML = stages.map(s => {
-      const pct = Math.max(1.5, (s.val / leads) * 100);
-      return `<div class="funnel-stage">
-        <span class="funnel-label">${s.label}</span>
-        <div class="funnel-track">
-          <div class="funnel-fill" style="width:${pct.toFixed(1)}%;background:${s.color};color:${s.text};">${fmt(s.val)}</div>
-        </div>
-        <span class="funnel-pct">${(s.val/leads*100).toFixed(1)}%</span>
-      </div>`;
-    }).join('');
-
-    document.getElementById('r-vendas').textContent     = fmt(vendas);
-    document.getElementById('r-vendas-sub').textContent = `conv. ${(conv*100).toFixed(1)}% sobre ${fmt(cpl4)} presentes na aula 4`;
-    document.getElementById('r-receita').textContent    = fmtR(receita);
-    document.getElementById('r-cpl4-sub').textContent   = `${fmt(cpl4)} presentes × R$ ${fmt(ticket)} ticket`;
-
-    const pess = Math.round(cpl4 * 0.20);
-    const base = Math.round(cpl4 * 0.271);
-    const opt  = Math.round(cpl4 * 0.35);
-    const convPct = Math.round(conv*100);
-
-    document.getElementById('sc-pess').textContent   = fmt(pess) + ' vendas';
-    document.getElementById('sc-pess-r').textContent = fmtR(pess * ticket);
-    document.getElementById('sc-base').textContent   = fmt(base) + ' vendas';
-    document.getElementById('sc-base-r').textContent = fmtR(base * ticket);
-    document.getElementById('sc-opt').textContent    = fmt(opt)  + ' vendas';
-    document.getElementById('sc-opt-r').textContent  = fmtR(opt * ticket);
-
-    ['sc-pess-card','sc-base-card','sc-opt-card'].forEach(id => {
-      document.getElementById(id).classList.remove('active');
-    });
-    if (convPct <= 22)      document.getElementById('sc-pess-card').classList.add('active');
-    else if (convPct <= 31) document.getElementById('sc-base-card').classList.add('active');
-    else                    document.getElementById('sc-opt-card').classList.add('active');
-  }
-
-  ['s-leads','s-r12','s-r23','s-r34','s-conv','s-ticket'].forEach(id => {
-    document.getElementById(id).addEventListener('input', calc);
+    activeIdx = dist.indexOf(Math.min(...dist));
   });
+  document.getElementById(sc[activeIdx].cardId).classList.add('active');
 
-  calc();
+  updating = false;
+}
+
+// ── Event helpers ─────────────────────────────────────────────────────────────
+function onConfirm(id, fn) {
+  const el = document.getElementById(id);
+  el.addEventListener('blur',    () => { fn(); updateUI(); });
+  el.addEventListener('keydown', e => { if (e.key === 'Enter') el.blur(); });
+}
+
+// Sliders — abs relative to leads for a1–a4
+document.getElementById('sl-leads').addEventListener('input', e => { leads = +e.target.value; a1=Math.min(a1,leads);a2=Math.min(a2,a1);a3=Math.min(a3,a2);a4=Math.min(a4,a3); updateUI(); });
+document.getElementById('sl-a1').addEventListener('input',    e => { a1 = leads * (+e.target.value / 100); a2=Math.min(a2,a1);a3=Math.min(a3,a2);a4=Math.min(a4,a3); updateUI(); });
+document.getElementById('sl-a2').addEventListener('input',    e => { a2 = leads * (+e.target.value / 100); a3=Math.min(a3,a2);a4=Math.min(a4,a3); updateUI(); });
+document.getElementById('sl-a3').addEventListener('input',    e => { a3 = leads * (+e.target.value / 100); a4=Math.min(a4,a3); updateUI(); });
+document.getElementById('sl-a4').addEventListener('input',    e => { a4 = leads * (+e.target.value / 100); updateUI(); });
+document.getElementById('sl-ticket').addEventListener('input',e => { ticket = +e.target.value; updateUI(); });
+
+// Abs inputs
+onConfirm('abs-leads',  () => { const v=parseNum(document.getElementById('abs-leads').value);  if(v>0){leads=v;a1=Math.min(a1,leads);a2=Math.min(a2,a1);a3=Math.min(a3,a2);a4=Math.min(a4,a3);} });
+onConfirm('abs-a1',     () => { const v=parseNum(document.getElementById('abs-a1').value);     if(v>0){a1=Math.min(v,leads);a2=Math.min(a2,a1);a3=Math.min(a3,a2);a4=Math.min(a4,a3);} });
+onConfirm('abs-a2',     () => { const v=parseNum(document.getElementById('abs-a2').value);     if(v>0){a2=Math.min(v,leads);a3=Math.min(a3,a2);a4=Math.min(a4,a3);} });
+onConfirm('abs-a3',     () => { const v=parseNum(document.getElementById('abs-a3').value);     if(v>0){a3=Math.min(v,leads);a4=Math.min(a4,a3);} });
+onConfirm('abs-a4',     () => { const v=parseNum(document.getElementById('abs-a4').value);     if(v>0){a4=Math.min(v,leads);} });
+onConfirm('abs-ticket', () => { const v=parseNum(document.getElementById('abs-ticket').value); if(v>0){ticket=v;} });
+
+// Pct inputs — all % of leads
+onConfirm('pct-a1', () => { const p=parsePct(document.getElementById('pct-a1').value); if(p>0){a1=Math.min(leads*p/100,leads);a2=Math.min(a2,a1);a3=Math.min(a3,a2);a4=Math.min(a4,a3);} });
+onConfirm('pct-a2', () => { const p=parsePct(document.getElementById('pct-a2').value); if(p>0){a2=Math.min(leads*p/100,leads);a3=Math.min(a3,a2);a4=Math.min(a4,a3);} });
+onConfirm('pct-a3', () => { const p=parsePct(document.getElementById('pct-a3').value); if(p>0){a3=Math.min(leads*p/100,leads);a4=Math.min(a4,a3);} });
+onConfirm('pct-a4', () => { const p=parsePct(document.getElementById('pct-a4').value); if(p>0){a4=Math.min(leads*p/100,leads);} });
+
+// Scenario conv inputs
+['sc-pess-pct','sc-base-pct','sc-opt-pct'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('blur', () => updateUI());
+  el.addEventListener('keydown', e => { if(e.key==='Enter') el.blur(); });
+});
+
+updateUI();
 </script>
 </body>
 </html>
