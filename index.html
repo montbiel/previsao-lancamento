@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador de Vendas — Minicurso</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f11;
+    --surface: #16181c;
+    --surface2: #1e2026;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0f0f0;
+    --text2: #888;
+    --text3: #555;
+    --blue: #4f8ef7;
+    --blue-dim: rgba(79,142,247,0.12);
+    --green: #3ecf8e;
+    --green-dim: rgba(62,207,142,0.1);
+    --amber: #f5a623;
+    --amber-dim: rgba(245,166,35,0.1);
+    --red: #f26060;
+    --red-dim: rgba(242,96,96,0.1);
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; }
+
+  .page { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  header { margin-bottom: 48px; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; color: var(--blue); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+  h1 { font-size: 32px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; }
+  h1 span { color: var(--text2); font-weight: 300; }
+  .subtitle { margin-top: 10px; font-size: 14px; color: var(--text2); line-height: 1.6; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+
+  section { margin-bottom: 28px; }
+  .section-title {
+    font-family: var(--mono); font-size: 10px; color: var(--text3);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px; margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+  }
+
+  .metric { background: var(--surface2); border-radius: 8px; padding: 14px 16px; }
+  .metric-label { font-size: 11px; color: var(--text3); font-family: var(--mono); margin-bottom: 6px; }
+  .metric-val { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
+  .metric-sub { font-size: 11px; color: var(--text2); margin-top: 3px; }
+
+  .slider-group { margin-bottom: 18px; }
+  .slider-group:last-child { margin-bottom: 0; }
+  .slider-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px; }
+  .slider-name { font-size: 13px; color: var(--text2); }
+  .slider-value { font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--text); }
+
+  input[type=range] {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 2px;
+    background: var(--border2); border-radius: 2px; outline: none; cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--blue); border: 2px solid var(--bg);
+    box-shadow: 0 0 0 1px var(--blue);
+    transition: transform 0.1s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+  input[type=range]::-moz-range-thumb {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--blue); border: 2px solid var(--bg); cursor: pointer;
+  }
+
+  .funnel-stage { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .funnel-label { font-size: 12px; color: var(--text2); font-family: var(--mono); width: 72px; flex-shrink: 0; }
+  .funnel-track { flex: 1; height: 22px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+  .funnel-fill {
+    height: 100%; border-radius: 4px;
+    display: flex; align-items: center; padding-left: 8px;
+    font-size: 11px; font-family: var(--mono); font-weight: 500;
+    transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+    white-space: nowrap;
+  }
+  .funnel-pct { font-size: 11px; color: var(--text3); font-family: var(--mono); width: 40px; text-align: right; flex-shrink: 0; }
+
+  .result-box {
+    border: 1px solid var(--border2);
+    border-radius: 12px; padding: 22px 24px;
+    position: relative; overflow: hidden;
+  }
+  .result-box::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue), transparent);
+  }
+  .result-label { font-family: var(--mono); font-size: 11px; color: var(--text3); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .result-num { font-size: 36px; font-weight: 600; letter-spacing: -0.04em; }
+  .result-sub { font-size: 13px; color: var(--text2); margin-top: 4px; }
+
+  .scenario { border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; transition: border-color 0.2s; }
+  .scenario.active { border-color: var(--blue); background: var(--blue-dim); }
+  .scenario-label { font-size: 11px; color: var(--text3); font-family: var(--mono); margin-bottom: 4px; }
+  .scenario-conv { font-size: 10px; color: var(--text3); margin-bottom: 10px; }
+  .scenario-vendas { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
+  .scenario-receita { font-size: 11px; color: var(--text2); margin-top: 4px; }
+
+  .badge { display: inline-block; font-family: var(--mono); font-size: 10px; padding: 2px 7px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
+  .badge-blue { background: var(--blue-dim); color: var(--blue); }
+  .badge-green { background: var(--green-dim); color: var(--green); }
+  .badge-amber { background: var(--amber-dim); color: var(--amber); }
+
+  .divider { height: 1px; background: var(--border); margin: 8px 0 16px; }
+
+  footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .footer-note { font-size: 12px; color: var(--text3); }
+  .footer-updated { font-family: var(--mono); font-size: 11px; color: var(--text3); }
+
+  @media (max-width: 600px) {
+    .grid2, .grid3, .grid4 { grid-template-columns: 1fr 1fr; }
+    .grid4 { grid-template-columns: 1fr 1fr; }
+    h1 { font-size: 24px; }
+    .result-num { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <p class="eyebrow">Planejamento comercial</p>
+    <h1>Simulador de Vendas <span>/ Minicurso</span></h1>
+    <p class="subtitle">Ajuste os parâmetros da próxima edição e veja a previsão de vendas e receita em tempo real.<br>Baseado nas taxas históricas do seu funil.</p>
+  </header>
+
+  <section>
+    <p class="section-title">Taxas históricas — base de cálculo</p>
+    <div class="grid4">
+      <div class="metric">
+        <p class="metric-label">Aula 1 → 2</p>
+        <p class="metric-val" style="color:var(--blue)">55%</p>
+        <p class="metric-sub">retenção</p>
+      </div>
+      <div class="metric">
+        <p class="metric-label">Aula 2 → 3</p>
+        <p class="metric-val" style="color:var(--blue)">81,8%</p>
+        <p class="metric-sub">retenção</p>
+      </div>
+      <div class="metric">
+        <p class="metric-label">Aula 3 → 4</p>
+        <p class="metric-val" style="color:var(--blue)">77,8%</p>
+        <p class="metric-sub">retenção</p>
+      </div>
+      <div class="metric">
+        <p class="metric-label">Conv. aula 4</p>
+        <p class="metric-val" style="color:var(--green)">27,1%</p>
+        <p class="metric-sub">vendas / presentes</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-title">Parâmetros da próxima edição</p>
+    <div class="card grid2" style="gap: 32px;">
+      <div>
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-name">Leads captados</span>
+            <span class="slider-value" id="o-leads">110.000</span>
+          </div>
+          <input type="range" id="s-leads" min="20000" max="300000" step="5000" value="110000">
+        </div>
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-name">Retenção aula 1 → 2</span>
+            <span class="slider-value" id="o-r12">55%</span>
+          </div>
+          <input type="range" id="s-r12" min="20" max="90" step="1" value="55">
+        </div>
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-name">Retenção aula 2 → 3</span>
+            <span class="slider-value" id="o-r23">82%</span>
+          </div>
+          <input type="range" id="s-r23" min="30" max="95" step="1" value="82">
+        </div>
+      </div>
+      <div>
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-name">Retenção aula 3 → 4</span>
+            <span class="slider-value" id="o-r34">78%</span>
+          </div>
+          <input type="range" id="s-r34" min="30" max="95" step="1" value="78">
+        </div>
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-name">Conversão aula 4</span>
+            <span class="slider-value" id="o-conv">27%</span>
+          </div>
+          <input type="range" id="s-conv" min="5" max="60" step="1" value="27">
+        </div>
+        <div class="slider-group">
+          <div class="slider-header">
+            <span class="slider-name">Ticket médio</span>
+            <span class="slider-value" id="o-ticket">R$ 997</span>
+          </div>
+          <input type="range" id="s-ticket" min="97" max="2997" step="50" value="997">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-title">Funil projetado</p>
+    <div class="card" id="funnel-container"></div>
+  </section>
+
+  <section>
+    <p class="section-title">Resultado projetado</p>
+    <div class="grid2" style="margin-bottom: 12px;">
+      <div class="result-box">
+        <p class="result-label">Vendas estimadas</p>
+        <p class="result-num" id="r-vendas" style="color:var(--blue)">—</p>
+        <p class="result-sub" id="r-vendas-sub">—</p>
+      </div>
+      <div class="result-box">
+        <p class="result-label">Receita projetada</p>
+        <p class="result-num" id="r-receita" style="color:var(--green)">—</p>
+        <p class="result-sub" id="r-cpl4-sub">—</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <p class="section-title" style="margin-bottom:12px;">Cenários comparativos — com os leads acima</p>
+    <div class="grid3">
+      <div class="scenario" id="sc-pess-card">
+        <p class="scenario-label" style="color:var(--red)">Pessimista</p>
+        <p class="scenario-conv" id="sc-pess-conv">conv. 20%</p>
+        <p class="scenario-vendas" id="sc-pess" style="color:var(--red)">—</p>
+        <p class="scenario-receita" id="sc-pess-r">—</p>
+      </div>
+      <div class="scenario active" id="sc-base-card">
+        <p class="scenario-label" style="color:var(--blue)">Base histórica</p>
+        <p class="scenario-conv" id="sc-base-conv">conv. 27,1%</p>
+        <p class="scenario-vendas" id="sc-base" style="color:var(--blue)">—</p>
+        <p class="scenario-receita" id="sc-base-r">—</p>
+      </div>
+      <div class="scenario" id="sc-opt-card">
+        <p class="scenario-label" style="color:var(--green)">Otimista</p>
+        <p class="scenario-conv" id="sc-opt-conv">conv. 35%</p>
+        <p class="scenario-vendas" id="sc-opt" style="color:var(--green)">—</p>
+        <p class="scenario-receita" id="sc-opt-r">—</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="footer-note">Modelo baseado em médias históricas. Resultados reais podem variar.</p>
+    <p class="footer-updated" id="footer-date"></p>
+  </footer>
+</div>
+
+<script>
+  document.getElementById('footer-date').textContent = 'atualizado ' + new Date().toLocaleDateString('pt-BR');
+
+  const HIST_LEADS = 110000;
+  const HIST_CPL1  = 10000;
+
+  function fmt(n)  { return Math.round(n).toLocaleString('pt-BR'); }
+  function fmtR(n) {
+    if (n >= 1000000) return 'R$ ' + (n/1000000).toFixed(1).replace('.',',') + 'M';
+    return 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+  }
+
+  function calc() {
+    const leads  = +document.getElementById('s-leads').value;
+    const r12    = +document.getElementById('s-r12').value / 100;
+    const r23    = +document.getElementById('s-r23').value / 100;
+    const r34    = +document.getElementById('s-r34').value / 100;
+    const conv   = +document.getElementById('s-conv').value / 100;
+    const ticket = +document.getElementById('s-ticket').value;
+
+    document.getElementById('o-leads').textContent  = fmt(leads);
+    document.getElementById('o-r12').textContent    = Math.round(r12*100) + '%';
+    document.getElementById('o-r23').textContent    = Math.round(r23*100) + '%';
+    document.getElementById('o-r34').textContent    = Math.round(r34*100) + '%';
+    document.getElementById('o-conv').textContent   = Math.round(conv*100) + '%';
+    document.getElementById('o-ticket').textContent = 'R$ ' + fmt(ticket);
+
+    const cpl1   = leads * (HIST_CPL1 / HIST_LEADS);
+    const cpl2   = cpl1 * r12;
+    const cpl3   = cpl2 * r23;
+    const cpl4   = cpl3 * r34;
+    const vendas = cpl4 * conv;
+    const receita= vendas * ticket;
+
+    const stages = [
+      { label: 'Leads',   val: leads, color: '#4f8ef7', text: '#0e1a2f' },
+      { label: 'Aula 1',  val: cpl1,  color: '#3ecf8e', text: '#042318' },
+      { label: 'Aula 2',  val: cpl2,  color: '#3ecf8e', text: '#042318' },
+      { label: 'Aula 3',  val: cpl3,  color: '#3ecf8e', text: '#042318' },
+      { label: 'Aula 4',  val: cpl4,  color: '#f5a623', text: '#2a1900' },
+      { label: 'Vendas',  val: vendas, color: '#4f8ef7', text: '#0e1a2f' },
+    ];
+
+    const container = document.getElementById('funnel-container');
+    container.innerHTML = stages.map(s => {
+      const pct = Math.max(1.5, (s.val / leads) * 100);
+      return `<div class="funnel-stage">
+        <span class="funnel-label">${s.label}</span>
+        <div class="funnel-track">
+          <div class="funnel-fill" style="width:${pct.toFixed(1)}%;background:${s.color};color:${s.text};">${fmt(s.val)}</div>
+        </div>
+        <span class="funnel-pct">${(s.val/leads*100).toFixed(1)}%</span>
+      </div>`;
+    }).join('');
+
+    document.getElementById('r-vendas').textContent     = fmt(vendas);
+    document.getElementById('r-vendas-sub').textContent = `conv. ${(conv*100).toFixed(1)}% sobre ${fmt(cpl4)} presentes na aula 4`;
+    document.getElementById('r-receita').textContent    = fmtR(receita);
+    document.getElementById('r-cpl4-sub').textContent   = `${fmt(cpl4)} presentes × R$ ${fmt(ticket)} ticket`;
+
+    const pess = Math.round(cpl4 * 0.20);
+    const base = Math.round(cpl4 * 0.271);
+    const opt  = Math.round(cpl4 * 0.35);
+    const convPct = Math.round(conv*100);
+
+    document.getElementById('sc-pess').textContent   = fmt(pess) + ' vendas';
+    document.getElementById('sc-pess-r').textContent = fmtR(pess * ticket);
+    document.getElementById('sc-base').textContent   = fmt(base) + ' vendas';
+    document.getElementById('sc-base-r').textContent = fmtR(base * ticket);
+    document.getElementById('sc-opt').textContent    = fmt(opt)  + ' vendas';
+    document.getElementById('sc-opt-r').textContent  = fmtR(opt * ticket);
+
+    ['sc-pess-card','sc-base-card','sc-opt-card'].forEach(id => {
+      document.getElementById(id).classList.remove('active');
+    });
+    if (convPct <= 22)      document.getElementById('sc-pess-card').classList.add('active');
+    else if (convPct <= 31) document.getElementById('sc-base-card').classList.add('active');
+    else                    document.getElementById('sc-opt-card').classList.add('active');
+  }
+
+  ['s-leads','s-r12','s-r23','s-r34','s-conv','s-ticket'].forEach(id => {
+    document.getElementById(id).addEventListener('input', calc);
+  });
+
+  calc();
+</script>
+</body>
+</html>
